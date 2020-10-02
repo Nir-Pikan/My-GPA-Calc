@@ -17,13 +17,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow, calculator):
         self.calculator = calculator
 
-        # Create main window
+        # create main window
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 850)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-        # Create My-GPA-Calculator
+        # create My-GPA-Calculator
         self.myGPAcalcLabel = QtWidgets.QLabel(self.centralwidget)
         self.myGPAcalcLabel.setGeometry(QtCore.QRect(350, 5, 300, 32))
         font = QtGui.QFont()
@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         self.myGPAcalcLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.myGPAcalcLabel.setObjectName("myGPAcalcLabel")
 
-        # Create messageLabel
+        # create messageLabel
         self.messageLabel = QtWidgets.QLabel(self.centralwidget)
         self.messageLabel.setGeometry(QtCore.QRect(10, 790, 980, 50))
         font = QtGui.QFont()
@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
         self.messageLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.messageLabel.setObjectName("messageLabel")
 
-        # Create myCoursesLabel
+        # create myCoursesLabel
         self.myCoursesLabel = QtWidgets.QLabel(self.centralwidget)
         self.myCoursesLabel.setGeometry(QtCore.QRect(20, 40, 122, 24))
         font = QtGui.QFont()
@@ -61,7 +61,7 @@ class Ui_MainWindow(object):
         self.myCoursesLabel.setFont(font)
         self.myCoursesLabel.setObjectName("myCoursesLabel")
 
-        # Create totalPointsLabel
+        # create totalPointsLabel
         self.totalPointsLabel = QtWidgets.QLabel(self.centralwidget)
         self.totalPointsLabel.setGeometry(QtCore.QRect(770, 100, 250, 24))
         font = QtGui.QFont()
@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         self.totalPointsLabel.setFont(font)
         self.totalPointsLabel.setObjectName("totalPointsLabel")
 
-        # Create gpaLabel
+        # create gpaLabel
         self.gpaLabel = QtWidgets.QLabel(self.centralwidget)
         self.gpaLabel.setGeometry(QtCore.QRect(770, 140, 200, 24))
         font = QtGui.QFont()
@@ -83,9 +83,9 @@ class Ui_MainWindow(object):
         self.gpaLabel.setFont(font)
         self.gpaLabel.setObjectName("gpaLabel")
 
-        # Create nameLabel
+        # create nameLabel
         self.nameLabel = QtWidgets.QLabel(self.centralwidget)
-        self.nameLabel.setGeometry(QtCore.QRect(120, 80, 81, 20))
+        self.nameLabel.setGeometry(QtCore.QRect(115, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -94,9 +94,9 @@ class Ui_MainWindow(object):
         self.nameLabel.setFont(font)
         self.nameLabel.setObjectName("nameLabel")
 
-        # Create pointsLabel
+        # create pointsLabel
         self.pointsLabel = QtWidgets.QLabel(self.centralwidget)
-        self.pointsLabel.setGeometry(QtCore.QRect(330, 80, 81, 20))
+        self.pointsLabel.setGeometry(QtCore.QRect(325, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -105,9 +105,9 @@ class Ui_MainWindow(object):
         self.pointsLabel.setFont(font)
         self.pointsLabel.setObjectName("pointsLabel")
 
-        # Create gradeLabel
+        # create gradeLabel
         self.gradeLabel = QtWidgets.QLabel(self.centralwidget)
-        self.gradeLabel.setGeometry(QtCore.QRect(540, 80, 81, 20))
+        self.gradeLabel.setGeometry(QtCore.QRect(535, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -116,7 +116,7 @@ class Ui_MainWindow(object):
         self.gradeLabel.setFont(font)
         self.gradeLabel.setObjectName("gradeLabel")
 
-        # Create frame-grid-scroll area for courses
+        # create frame-grid-scroll area for courses
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(10, 90, 761, 281))
         font = QtGui.QFont()
@@ -145,7 +145,7 @@ class Ui_MainWindow(object):
         self.coursesScrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.coursesScrollArea, 0, 1, 1, 1)
 
-        # Create Add-course base
+        # create Add-course base
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(20, 370, 741, 51))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -153,12 +153,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
 
-        # Add-course name
+        # add-course name
         self.nameAddLineEdit = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
         self.nameAddLineEdit.setObjectName("nameAddLineEdit")
         self.horizontalLayout.addWidget(self.nameAddLineEdit)
 
-        # Add-course pointsSpinBox
+        # add-course pointsSpinBox
         self.pointsSpinBox = QtWidgets.QDoubleSpinBox(self.horizontalLayoutWidget)
         self.pointsSpinBox.setWrapping(False)
         self.pointsSpinBox.setFrame(True)
@@ -173,19 +173,19 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.pointsSpinBox)
         self.pointsSpinBox.valueChanged.connect(self.set_course_points)
 
-        # Add-course gradeSpinBox
+        # add-course gradeSpinBox
         self.gradeSpinBox = QtWidgets.QSpinBox(self.horizontalLayoutWidget)
         self.gradeSpinBox.setMaximum(100)
         self.gradeSpinBox.setObjectName("gradeSpinBox")
         self.horizontalLayout.addWidget(self.gradeSpinBox)
 
-        # Add-course button
+        # add-course button
         self.addCourseButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.addCourseButton.setObjectName("addCourseButton")
         self.horizontalLayout.addWidget(self.addCourseButton)
         self.addCourseButton.clicked.connect(self.add_course_clicked)
 
-        # Create features label
+        # create features label
         self.featuresLabel = QtWidgets.QLabel(self.centralwidget)
         self.featuresLabel.setGeometry(QtCore.QRect(20, 450, 122, 24))
         font = QtGui.QFont()
@@ -196,7 +196,7 @@ class Ui_MainWindow(object):
         self.featuresLabel.setFont(font)
         self.featuresLabel.setObjectName("featuresLabel")
 
-        # Create Top3 results
+        # create Top3 results
         self.top3VerticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.top3VerticalLayoutWidget.setGeometry(QtCore.QRect(270, 480, 351, 81))
         self.top3VerticalLayoutWidget.setObjectName("top3VerticalLayoutWidget")
@@ -204,7 +204,7 @@ class Ui_MainWindow(object):
         self.top3VerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.top3VerticalLayout.setObjectName("top3VerticalLayout")
 
-        # First result
+        # first result
         self.top3Label = QtWidgets.QLabel(self.top3VerticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("David")
@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
         self.top3Label.setObjectName("top3Label")
         self.top3VerticalLayout.addWidget(self.top3Label)
 
-        # Second result
+        # second result
         self.top3Label_2 = QtWidgets.QLabel(self.top3VerticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("David")
@@ -231,7 +231,7 @@ class Ui_MainWindow(object):
         self.top3Label_3.setObjectName("top3Label_3")
         self.top3VerticalLayout.addWidget(self.top3Label_3)
 
-        # Create top3Button
+        # create top3Button
         self.top3Button = QtWidgets.QPushButton(self.centralwidget)
         self.top3Button.setGeometry(QtCore.QRect(20, 480, 241, 81))
         font = QtGui.QFont()
@@ -241,14 +241,51 @@ class Ui_MainWindow(object):
         self.top3Button.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.top3Button.setObjectName("top3Button")
 
-        # Create menubar
+        # create maxGPA results
+        self.maxGPAVerticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.maxGPAVerticalLayoutWidget.setGeometry(QtCore.QRect(270, 570, 351, 81))
+        self.maxGPAVerticalLayoutWidget.setObjectName("maxGPAVerticalLayoutWidget")
+        self.maxGPAVerticalLayout = QtWidgets.QVBoxLayout(self.maxGPAVerticalLayoutWidget)
+        self.maxGPAVerticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.maxGPAVerticalLayout.setObjectName("maxGPAVerticalLayout")
+
+        # create 120 points result
+        self.maxGPA120Label = QtWidgets.QLabel(self.maxGPAVerticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        self.maxGPA120Label.setFont(font)
+        self.maxGPA120Label.setObjectName("maxGPA120Label")
+        self.maxGPAVerticalLayout.addWidget(self.maxGPA120Label)
+
+        # create 160 points result
+        self.maxGPA160Label = QtWidgets.QLabel(self.maxGPAVerticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        self.maxGPA160Label.setFont(font)
+        self.maxGPA160Label.setObjectName("maxGPA160Label")
+        self.maxGPAVerticalLayout.addWidget(self.maxGPA160Label)
+
+        # create maxGPAButton
+        self.maxGPAButton = QtWidgets.QPushButton(self.centralwidget)
+        self.maxGPAButton.setGeometry(QtCore.QRect(20, 570, 241, 81))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        self.maxGPAButton.setFont(font)
+        self.maxGPAButton.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.maxGPAButton.setObjectName("maxGPAButton")
+        self.maxGPAButton.clicked.connect(self.max_gpa_clicked)
+
+        # create menubar
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 
-        # Create statusbar
+        # create statusbar
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -266,34 +303,35 @@ class Ui_MainWindow(object):
         self.nameLabel.setText(_translate("MainWindow", "Name"))
         self.pointsLabel.setText(_translate("MainWindow", "Points"))
         self.gradeLabel.setText(_translate("MainWindow", "Grade"))
-        # self.deleteButton_2.setText(_translate("MainWindow", "Delete"))
-        # self.deleteButton.setText(_translate("MainWindow", "Delete"))
         self.addCourseButton.setText(_translate("MainWindow", "Add"))
         self.featuresLabel.setText(_translate("MainWindow", "Features"))
         self.top3Label.setText(_translate("MainWindow", "1."))
         self.top3Label_2.setText(_translate("MainWindow", "2."))
         self.top3Label_3.setText(_translate("MainWindow", "3."))
         self.top3Button.setText(_translate("MainWindow", "Top 3 courses to improve"))
+        self.maxGPA120Label.setText(_translate("MainWindow", "Max GPA for 120 points: "))
+        self.maxGPA160Label.setText(_translate("MainWindow", "Max GPA for 160 points: "))
+        self.maxGPAButton.setText(_translate("MainWindow", "Max GPA possible"))
 
-    # When the addCourseButton is clicked
+    # when the addCourseButton is clicked
     def add_course_clicked(self, calculator):
         created_course = self.calculator.add_course(
             self.nameAddLineEdit.text(), self.pointsSpinBox.value(), self.gradeSpinBox.value())
 
-        # In case of an error
+        # in case of an error
         if type(created_course) is ErrorMsg:
             self.messageLabel.setText(created_course.msg)
             print(created_course.msg)
             return
 
-        # Update text
+        # update text
         print(created_course.name, created_course.points, created_course.grade)
         self.messageLabel.setText("Course ''%s'' was added!" % created_course.name)
-        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.points)
+        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.total_points)
         self.gpaLabel.setText("GPA: %.2f" % self.calculator.gpa)
 
-        # Add course to UI
-        # Add check_box
+        # add course to UI
+        # add check_box
         check_box = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         check_box.setText("")
         check_box.setChecked(True)
@@ -302,14 +340,14 @@ class Ui_MainWindow(object):
             lambda: self.set_checkbox_to_course(created_course, check_box.checkState()))
         self.gridLayout_2.addWidget(check_box, self.calculator.courses_count, 0, 1, 1)
 
-        # Add nameLineEdit
+        # add nameLineEdit
         name_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         name_line_edit.setText(created_course.name)
         name_line_edit.setReadOnly(True)
         name_line_edit.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout_2.addWidget(name_line_edit, self.calculator.courses_count, 1, 1, 1)
 
-        # Add pointsLineEdit
+        # add pointsLineEdit
         points_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         points_line_edit.setText(str(created_course.points))
         points_line_edit.setReadOnly(True)
@@ -323,19 +361,19 @@ class Ui_MainWindow(object):
         grade_line_edit.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout_2.addWidget(grade_line_edit, self.calculator.courses_count, 3, 1, 1)
 
-        # Add deleteButton
+        # add deleteButton
         delete_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         delete_button.setText("Delete")
-        delete_button.clicked.connect(lambda: self.remove_row(delete_button,created_course))
+        delete_button.clicked.connect(lambda: self.remove_row(delete_button, created_course))
         self.gridLayout_2.addWidget(delete_button, self.calculator.courses_count, 4, 1, 1)
 
-    # Makes sure that the pointsSpinBox will have logical values
+    # makes sure that the pointsSpinBox will have logical values
     def set_course_points(self, value):
         x = float(value)
         if not (x * 2).is_integer():
             self.pointsSpinBox.setValue(int(x))
 
-    # Connects a course to his checkbox
+    # connects a course to his checkbox
     def set_checkbox_to_course(self, course, value):
         course.enabled = value
         if course.enabled:
@@ -343,8 +381,10 @@ class Ui_MainWindow(object):
         else:
             text = "disabled!"
         self.messageLabel.setText("Course ''" + course.name + "'' is " + text)
+        self.calculator.enable_disable_update(course)
+        self.update_gpa_and_total_points_text()
 
-    # When the deleteCourseButton is clicked
+    # when the deleteCourseButton is clicked
     def remove_row(self, sender, course):
         self.calculator.remove_course(course)
 
@@ -356,8 +396,26 @@ class Ui_MainWindow(object):
                 layout.widget().deleteLater()
                 self.gridLayout_2.removeItem(layout)
 
-        # Update text
-        print(course.name, course.points, course.grade)
+        # update text
         self.messageLabel.setText("Course ''%s'' was deleted!" % course.name)
-        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.points)
+        self.update_gpa_and_total_points_text()
+
+    # updates the GPA and Total Points text
+    def update_gpa_and_total_points_text(self):
+        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.total_points)
         self.gpaLabel.setText("GPA: %.2f" % self.calculator.gpa)
+
+    # when the maxGPAButton is clicked
+    def max_gpa_clicked(self):
+        self.calculator.calculate_max_gpa()
+        if self.calculator.total_points <= 120:
+            self.maxGPA120Label.setText("Max GPA for 120 points: %.2f" % self.calculator.max_gpa_120)
+        else:
+            self.maxGPA120Label.setText("Max GPA for 120 points: Total points over 120!")
+
+        if self.calculator.total_points <= 160:
+            self.maxGPA160Label.setText("Max GPA for 160 points: %.2f" % self.calculator.max_gpa_160)
+        else:
+            self.maxGPA160Label.setText("Max GPA for 160 points: Total points over 160!")
+
+        self.messageLabel.setText("Max GPA possible was calculated!")

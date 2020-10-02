@@ -4,10 +4,12 @@ from Classes.ErrorMsg import ErrorMsg
 
 class Calculator:
     gpa = 0
-    points = 0
+    total_points = 0
     courses = [[]]  # array of arrays from 1 point courses to 10 point courses
     added_courses = []  # array of courses in insert order
     courses_count = 0
+    max_gpa_120 = 100
+    max_gpa_160 = 100
 
     def __init__(self):
         for x in range(19):
@@ -34,19 +36,42 @@ class Calculator:
 
         self.added_courses.append(course)
         self.courses_count += 1
-        new_points = self.points + points
-        self.gpa = (self.points / new_points * self.gpa) + (points / new_points * grade)
-        self.points += points
+        self.add_course_to_gpa_and_total_points(course)
         return course
 
     # removes a course from the calculator
     def remove_course(self, course):
         if course in self.courses[int(course.points * 2 - 2)]:
             self.courses[int(course.points * 2 - 2)].remove(course)
-            if not self.points - course.points == 0:
-                self.gpa = ((self.gpa * self.points) - (course.grade * course.points)) \
-                           / (self.points - course.points)
-            else:
-                self.gpa = 0
-            self.points = self.points - course.points
+            if course.enabled:
+                self.remove_course_from_gpa_and_total_points(course)
+
             self.added_courses.remove(course)
+
+    # updates GPA and total points when enabling or disabling a course
+    def enable_disable_update(self, course):
+        if course.enabled:
+            self.add_course_to_gpa_and_total_points(course)
+
+        else:
+            self.remove_course_from_gpa_and_total_points(course)
+
+    # adding a course to the GPA and Total Points
+    def add_course_to_gpa_and_total_points(self, course):
+        new_points = self.total_points + course.points
+        self.gpa = (self.total_points / new_points * self.gpa) + (course.points / new_points * course.grade)
+        self.total_points += course.points
+
+    # removes a course from the GPA and Total Points
+    def remove_course_from_gpa_and_total_points(self, course):
+        if not self.total_points - course.points == 0:
+            self.gpa = ((self.gpa * self.total_points) - (course.grade * course.points)) \
+                       / (self.total_points - course.points)
+        else:
+            self.gpa = 0
+        self.total_points = self.total_points - course.points
+
+    # calculates max GPA possible for 120 and 160 total points
+    def calculate_max_gpa(self):
+        self.max_gpa_120 = ((self.total_points * (self.gpa - 100)) + 12000) / 120
+        self.max_gpa_160 = ((self.total_points * (self.gpa - 100)) + 16000) / 160
