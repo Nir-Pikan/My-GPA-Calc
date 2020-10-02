@@ -75,3 +75,49 @@ class Calculator:
     def calculate_max_gpa(self):
         self.max_gpa_120 = ((self.total_points * (self.gpa - 100)) + 12000) / 120
         self.max_gpa_160 = ((self.total_points * (self.gpa - 100)) + 16000) / 160
+
+    # greedy algorithm
+    # returns the top 3 courses to improve
+    def top_3_to_improve(self):
+        result = []
+        min_list = []
+        # gather all possible courses
+        for i in range(19):
+            if self.courses[i]:
+                temp = next((x for x in self.courses[i] if x.enabled), None)
+                if temp:
+                    min_list.append(temp)
+
+        # sort by improve_score
+        min_list.sort(key=lambda course: course.improve_score, reverse=True)
+
+        if min_list:
+            result.append(min_list[0])  # 1st to improve
+            self.add_next_to_min_list(min_list, min_list[0])
+
+        if min_list:
+            result.append(min_list[0])  # 2nd to improve
+            self.add_next_to_min_list(min_list, min_list[0])
+
+        if min_list:
+            result.append(min_list[0])  # 3rd to improve
+
+        return result
+
+    # help function for top_3_to_improve
+    def add_next_to_min_list(self, min_list, last_course):
+        min_list.remove(last_course)
+        index = self.courses[int(last_course.points * 2) - 2].index(last_course) + 1
+        temp = next((x for x in self.courses[int(last_course.points * 2) - 2][index:] if x.enabled), None)
+
+        # add course to min_list and keep it sorted
+        if temp:
+            i = 0
+            for course in min_list:
+                if temp.improve_score > course.improve_score:
+                    min_list.insert(i, temp)
+                    break
+                i += 1
+
+            if i == len(min_list):  # last position
+                min_list.append(temp)

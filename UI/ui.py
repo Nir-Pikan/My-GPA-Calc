@@ -198,13 +198,13 @@ class Ui_MainWindow(object):
 
         # create Top3 results
         self.top3VerticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.top3VerticalLayoutWidget.setGeometry(QtCore.QRect(270, 480, 351, 81))
+        self.top3VerticalLayoutWidget.setGeometry(QtCore.QRect(270, 480, 300, 81))
         self.top3VerticalLayoutWidget.setObjectName("top3VerticalLayoutWidget")
         self.top3VerticalLayout = QtWidgets.QVBoxLayout(self.top3VerticalLayoutWidget)
         self.top3VerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.top3VerticalLayout.setObjectName("top3VerticalLayout")
 
-        # first result
+        # 1st result
         self.top3Label = QtWidgets.QLabel(self.top3VerticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("David")
@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
         self.top3Label.setObjectName("top3Label")
         self.top3VerticalLayout.addWidget(self.top3Label)
 
-        # second result
+        # 2nd result
         self.top3Label_2 = QtWidgets.QLabel(self.top3VerticalLayoutWidget)
         font = QtGui.QFont()
         font.setFamily("David")
@@ -240,6 +240,7 @@ class Ui_MainWindow(object):
         self.top3Button.setFont(font)
         self.top3Button.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.top3Button.setObjectName("top3Button")
+        self.top3Button.clicked.connect(self.top_3_clicked)
 
         # create maxGPA results
         self.maxGPAVerticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -321,11 +322,9 @@ class Ui_MainWindow(object):
         # in case of an error
         if type(created_course) is ErrorMsg:
             self.messageLabel.setText(created_course.msg)
-            print(created_course.msg)
             return
 
         # update text
-        print(created_course.name, created_course.points, created_course.grade)
         self.messageLabel.setText("Course ''%s'' was added!" % created_course.name)
         self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.total_points)
         self.gpaLabel.setText("GPA: %.2f" % self.calculator.gpa)
@@ -419,3 +418,29 @@ class Ui_MainWindow(object):
             self.maxGPA160Label.setText("Max GPA for 160 points: Total points over 160!")
 
         self.messageLabel.setText("Max GPA possible was calculated!")
+
+    # when the top3Button is clicked
+    def top_3_clicked(self):
+        results = self.calculator.top_3_to_improve()
+        length = len(results)
+        if not length:
+            self.top3Label.setText("1.")
+            self.top3Label_2.setText("2.")
+            self.top3Label_3.setText("3.")
+
+        elif length == 1:
+            self.top3Label.setText("1.%s" % results[0].name)
+            self.top3Label_2.setText("2.")
+            self.top3Label_3.setText("3.")
+
+        elif length == 2:
+            self.top3Label.setText("1.%s" % results[0].name)
+            self.top3Label_2.setText("2.%s" % results[1].name)
+            self.top3Label_3.setText("3.")
+
+        else:
+            self.top3Label.setText("1.%s" % results[0].name)
+            self.top3Label_2.setText("2.%s" % results[1].name)
+            self.top3Label_3.setText("3.%s" % results[2].name)
+
+        self.messageLabel.setText("Top 3 courses to improve calculated!")
