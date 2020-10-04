@@ -146,20 +146,20 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.coursesScrollArea, 0, 1, 1, 1)
 
         # create Add-course base
-        self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(20, 370, 741, 51))
-        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.addCourseHorizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.addCourseHorizontalLayoutWidget.setGeometry(QtCore.QRect(20, 370, 741, 51))
+        self.addCourseHorizontalLayoutWidget.setObjectName("addCourseHorizontalLayoutWidget")
+        self.addCourseHorizontalLayout = QtWidgets.QHBoxLayout(self.addCourseHorizontalLayoutWidget)
+        self.addCourseHorizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.addCourseHorizontalLayout.setObjectName("addCourseHorizontalLayout")
 
         # add-course name
-        self.nameAddLineEdit = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
+        self.nameAddLineEdit = QtWidgets.QLineEdit(self.addCourseHorizontalLayoutWidget)
         self.nameAddLineEdit.setObjectName("nameAddLineEdit")
-        self.horizontalLayout.addWidget(self.nameAddLineEdit)
+        self.addCourseHorizontalLayout.addWidget(self.nameAddLineEdit)
 
         # add-course pointsSpinBox
-        self.pointsSpinBox = QtWidgets.QDoubleSpinBox(self.horizontalLayoutWidget)
+        self.pointsSpinBox = QtWidgets.QDoubleSpinBox(self.addCourseHorizontalLayoutWidget)
         self.pointsSpinBox.setWrapping(False)
         self.pointsSpinBox.setFrame(True)
         self.pointsSpinBox.setReadOnly(False)
@@ -170,19 +170,19 @@ class Ui_MainWindow(object):
         self.pointsSpinBox.setMaximum(10.0)
         self.pointsSpinBox.setSingleStep(0.5)
         self.pointsSpinBox.setObjectName("pointsSpinBox")
-        self.horizontalLayout.addWidget(self.pointsSpinBox)
+        self.addCourseHorizontalLayout.addWidget(self.pointsSpinBox)
         self.pointsSpinBox.valueChanged.connect(self.set_course_points)
 
         # add-course gradeSpinBox
-        self.gradeSpinBox = QtWidgets.QSpinBox(self.horizontalLayoutWidget)
+        self.gradeSpinBox = QtWidgets.QSpinBox(self.addCourseHorizontalLayoutWidget)
         self.gradeSpinBox.setMaximum(100)
         self.gradeSpinBox.setObjectName("gradeSpinBox")
-        self.horizontalLayout.addWidget(self.gradeSpinBox)
+        self.addCourseHorizontalLayout.addWidget(self.gradeSpinBox)
 
         # add-course button
-        self.addCourseButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.addCourseButton = QtWidgets.QPushButton(self.addCourseHorizontalLayoutWidget)
         self.addCourseButton.setObjectName("addCourseButton")
-        self.horizontalLayout.addWidget(self.addCourseButton)
+        self.addCourseHorizontalLayout.addWidget(self.addCourseButton)
         self.addCourseButton.clicked.connect(self.add_course_clicked)
 
         # create features label
@@ -279,6 +279,76 @@ class Ui_MainWindow(object):
         self.maxGPAButton.setObjectName("maxGPAButton")
         self.maxGPAButton.clicked.connect(self.max_gpa_clicked)
 
+        # create targetGPA results
+        # create top horizontal input
+        self.targetGPAMainHorizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.targetGPAMainHorizontalLayoutWidget.setGeometry(QtCore.QRect(270, 660, 160, 31))
+        self.targetGPAMainHorizontalLayoutWidget.setObjectName("targetGPAMainHorizontalLayoutWidget")
+        self.targetGPAHorizontalLayoutWidget = QtWidgets.QHBoxLayout(self.targetGPAMainHorizontalLayoutWidget)
+        self.targetGPAHorizontalLayoutWidget.setContentsMargins(0, 0, 0, 0)
+        self.targetGPAHorizontalLayoutWidget.setObjectName("targetGPAHorizontalLayoutWidget")
+
+        # create targetGPALabel for input
+        self.targetGPALabel = QtWidgets.QLabel(self.targetGPAMainHorizontalLayoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        self.targetGPALabel.setFont(font)
+        self.targetGPALabel.setObjectName("targetGPALabel")
+        self.targetGPAHorizontalLayoutWidget.addWidget(self.targetGPALabel)
+
+        # create targetGPADoubleSpinBox
+        self.targetGPADoubleSpinBox = QtWidgets.QDoubleSpinBox(self.targetGPAMainHorizontalLayoutWidget)
+        self.targetGPADoubleSpinBox.setWrapping(False)
+        self.targetGPADoubleSpinBox.setFrame(True)
+        self.targetGPADoubleSpinBox.setReadOnly(False)
+        self.targetGPADoubleSpinBox.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
+        self.targetGPADoubleSpinBox.setPrefix("")
+        self.targetGPADoubleSpinBox.setSuffix("")
+        self.targetGPADoubleSpinBox.setMinimum(0.0)
+        self.targetGPADoubleSpinBox.setMaximum(100.0)
+        self.targetGPADoubleSpinBox.setSingleStep(1)
+        self.targetGPADoubleSpinBox.setObjectName("targetGPADoubleSpinBox")
+        self.targetGPAHorizontalLayoutWidget.addWidget(self.targetGPADoubleSpinBox)
+
+        # create bottom vertical output
+        self.targetGPAMainVerticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.targetGPAMainVerticalLayoutWidget.setGeometry(QtCore.QRect(270, 690, 380, 41))
+        self.targetGPAMainVerticalLayoutWidget.setObjectName("targetGPAMainVerticalLayoutWidget")
+        self.targetGPAVerticalLayoutWidget = QtWidgets.QVBoxLayout(self.targetGPAMainVerticalLayoutWidget)
+        self.targetGPAVerticalLayoutWidget.setContentsMargins(0, 0, 0, 0)
+        self.targetGPAVerticalLayoutWidget.setObjectName("targetGPAVerticalLayoutWidget")
+
+        # create avg120Label
+        self.avg120Label = QtWidgets.QLabel(self.targetGPAMainVerticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(12)
+        self.avg120Label.setFont(font)
+        self.avg120Label.setObjectName("avg120Label")
+        self.targetGPAVerticalLayoutWidget.addWidget(self.avg120Label)
+
+        # create avg160Label
+        self.avg160Label = QtWidgets.QLabel(self.targetGPAMainVerticalLayoutWidget)
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(12)
+        self.avg160Label.setFont(font)
+        self.avg160Label.setObjectName("avg160Label")
+        self.targetGPAVerticalLayoutWidget.addWidget(self.avg160Label)
+
+        # create targetGPAButton
+        self.targetGPAButton = QtWidgets.QPushButton(self.centralwidget)
+        self.targetGPAButton.setGeometry(QtCore.QRect(20, 660, 241, 81))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        self.targetGPAButton.setFont(font)
+        self.targetGPAButton.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.targetGPAButton.setObjectName("targetGPAButton")
+        self.targetGPAButton.clicked.connect(
+            lambda: self.target_gpa_button_clicked(self.targetGPADoubleSpinBox.value()))
+
         # create menubar
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -313,6 +383,10 @@ class Ui_MainWindow(object):
         self.maxGPA120Label.setText(_translate("MainWindow", "Max GPA for 120 points: "))
         self.maxGPA160Label.setText(_translate("MainWindow", "Max GPA for 160 points: "))
         self.maxGPAButton.setText(_translate("MainWindow", "Max GPA possible"))
+        self.targetGPAButton.setText(_translate("MainWindow", "Average for target GPA"))
+        self.targetGPALabel.setText(_translate("MainWindow", "Target GPA:"))
+        self.avg120Label.setText(_translate("MainWindow", "Average grade needed for 120 points:"))
+        self.avg160Label.setText(_translate("MainWindow", "Average grade needed for 160 points:"))
 
     # when the addCourseButton is clicked
     def add_course_clicked(self, calculator):
@@ -444,3 +518,18 @@ class Ui_MainWindow(object):
             self.top3Label_3.setText("3.%s" % results[2].name)
 
         self.messageLabel.setText("Top 3 courses to improve calculated!")
+
+    # when the targetGPAButton is clicked
+    def target_gpa_button_clicked(self, target_gpa):
+        output = self.calculator.target_gpa(target_gpa)
+        if type(output[0]) == float:
+            self.avg120Label.setText("Average grade needed for 120 points: %.2f" % output[0])
+        else:
+            self.avg120Label.setText("Average grade needed for 120 points: " + output[0])
+
+        if type(output[1]) == float:
+            self.avg160Label.setText("Average grade needed for 160 points: %.2f" % output[1])
+        else:
+            self.avg160Label.setText("Average grade needed for 120 points: " + output[1])
+
+        self.messageLabel.setText("Average for target GPA was calculated!")

@@ -10,6 +10,9 @@ class Calculator:
     courses_count = 0
     max_gpa_120 = 100
     max_gpa_160 = 100
+    min_gpa_120 = 0
+    min_gpa_160 = 0
+    course_dict = {}  # make sure each course is unique
 
     def __init__(self):
         for x in range(19):
@@ -21,8 +24,12 @@ class Calculator:
             return ErrorMsg("Course name must have at least 1 character!")
         if len(name) > 30:
             return ErrorMsg("Course name must be less then 30 characters!")
+        if self.course_dict.get(name):
+            return ErrorMsg("Course ''%s'' already exists!" % name)
 
         course = Course(name, points, grade)
+        self.course_dict[name] = True
+
         # put new course in appropriate array and keep it sorted
         i = 0
         for x in self.courses[int(points * 2 - 2)]:
@@ -47,6 +54,7 @@ class Calculator:
                 self.remove_course_from_gpa_and_total_points(course)
 
             self.added_courses.remove(course)
+            del self.course_dict[course.name]
 
     # updates GPA and total points when enabling or disabling a course
     def enable_disable_update(self, course):
@@ -75,6 +83,11 @@ class Calculator:
     def calculate_max_gpa(self):
         self.max_gpa_120 = ((self.total_points * (self.gpa - 100)) + 12000) / 120
         self.max_gpa_160 = ((self.total_points * (self.gpa - 100)) + 16000) / 160
+
+    # calculates min GPA possible for 120 and 160 total points
+    def calculate_min_gpa(self):
+        self.min_gpa_120 = self.total_points * self.gpa / 120
+        self.min_gpa_160 = self.total_points * self.gpa / 160
 
     # greedy algorithm
     # returns the top 3 courses to improve
@@ -123,3 +136,23 @@ class Calculator:
 
             if i == len(min_list):  # last position
                 min_list.append(temp)
+
+    # calculates average score needed in rest of courses for wanted gpa if possible
+    def target_gpa(self, target_gpa):
+        self.calculate_max_gpa()
+        self.calculate_min_gpa()
+        results = []
+
+        if self.max_gpa_120 < target_gpa or self.min_gpa_120 > target_gpa:
+            results.append("Impossible to reach")
+        else:
+            result = ((target_gpa * 120) - (self.total_points * self.gpa)) / (120 - self.total_points)
+            results.append(result)
+
+        if self.max_gpa_160 < target_gpa or self.min_gpa_160 > target_gpa:
+            results.append("Impossible to reach")
+        else:
+            result = ((target_gpa * 160) - (self.total_points * self.gpa)) / (160 - self.total_points)
+            results.append(result)
+
+        return results
