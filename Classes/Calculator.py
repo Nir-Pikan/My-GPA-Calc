@@ -84,7 +84,8 @@ class Calculator:
         # gather all possible courses
         for i in range(19):
             if self.courses[i]:
-                temp = next((x for x in self.courses[i] if x.enabled), None)
+                temp = next((x for x in self.courses[i]
+                             if x.enabled and x.grade != 100), None)
                 if temp:
                     min_list.append(temp)
 
@@ -108,7 +109,8 @@ class Calculator:
     def add_next_to_min_list(self, min_list, last_course):
         min_list.remove(last_course)
         index = self.courses[int(last_course.points * 2) - 2].index(last_course) + 1
-        temp = next((x for x in self.courses[int(last_course.points * 2) - 2][index:] if x.enabled), None)
+        temp = next((x for x in self.courses[int(last_course.points * 2) - 2][index:]
+                     if x.enabled and x.grade != 100), None)
 
         # add course to min_list and keep it sorted
         if temp:
