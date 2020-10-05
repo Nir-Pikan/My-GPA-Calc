@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
 
         # create main window
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1000, 850)
+        MainWindow.resize(1000, 880)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -349,17 +349,24 @@ class Ui_MainWindow(object):
         self.targetGPAButton.clicked.connect(
             lambda: self.target_gpa_button_clicked(self.targetGPADoubleSpinBox.value()))
 
-        # create menubar
+        # create menubar and statusbar
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
+        self.menuOpen = QtWidgets.QMenu(self.menubar)
+        self.menuOpen.setObjectName("menuOpen")
         MainWindow.setMenuBar(self.menubar)
-
-        # create statusbar
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.actionOpen = QtWidgets.QAction(MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.menuOpen.addAction(self.actionOpen)
+        self.menuOpen.addAction(self.actionSave)
+        self.menubar.addAction(self.menuOpen.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -375,18 +382,39 @@ class Ui_MainWindow(object):
         self.pointsLabel.setText(_translate("MainWindow", "Points"))
         self.gradeLabel.setText(_translate("MainWindow", "Grade"))
         self.addCourseButton.setText(_translate("MainWindow", "Add"))
+        self.addCourseButton.setStatusTip(_translate(
+            "MainWindow", "Adds a course to the calculator"))
         self.featuresLabel.setText(_translate("MainWindow", "Features"))
         self.top3Label.setText(_translate("MainWindow", "1."))
         self.top3Label_2.setText(_translate("MainWindow", "2."))
         self.top3Label_3.setText(_translate("MainWindow", "3."))
         self.top3Button.setText(_translate("MainWindow", "Top 3 courses to improve"))
+        self.top3Button.setStatusTip(_translate(
+            "MainWindow", "Calculates the top 3 courses you should improve to improve your GPA"))
         self.maxGPA120Label.setText(_translate("MainWindow", "Max GPA for 120 points: "))
         self.maxGPA160Label.setText(_translate("MainWindow", "Max GPA for 160 points: "))
         self.maxGPAButton.setText(_translate("MainWindow", "Max GPA possible"))
+        self.maxGPAButton.setStatusTip(_translate(
+            "MainWindow", "Calculates maximum GPA you can possibly achieve without "
+                          "improving any course"))
         self.targetGPAButton.setText(_translate("MainWindow", "Average for target GPA"))
+        self.targetGPAButton.setStatusTip(_translate(
+            "MainWindow", "Calculates the average grade you will need in the rest "
+                          "of your courses to get to your target GPA"))
         self.targetGPALabel.setText(_translate("MainWindow", "Target GPA:"))
         self.avg120Label.setText(_translate("MainWindow", "Average grade needed for 120 points:"))
         self.avg160Label.setText(_translate("MainWindow", "Average grade needed for 160 points:"))
+        self.nameAddLineEdit.setStatusTip(_translate("MainWindow", "Add course name input"))
+        self.pointsSpinBox.setStatusTip(_translate("MainWindow", "Add course points input"))
+        self.gradeSpinBox.setStatusTip(_translate("MainWindow", "Add course grade input"))
+        self.targetGPADoubleSpinBox.setStatusTip(_translate("MainWindow", "Target GPA input"))
+        self.menuOpen.setTitle(_translate("MainWindow", "File"))
+        self.actionOpen.setText(_translate("MainWindow", "Open"))
+        self.actionOpen.setStatusTip(_translate("MainWindow", "Open a file"))
+        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionSave.setStatusTip(_translate("MainWindow", "Saves a file"))
+        self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
 
     # when the addCourseButton is clicked
     def add_course_clicked(self, calculator):
