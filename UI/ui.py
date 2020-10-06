@@ -11,9 +11,10 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Classes.Calculator import Calculator, ErrorMsg, Course
+import json
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtWidgets.QMainWindow):
     def setupUi(self, MainWindow, calculator):
         self.calculator = calculator
 
@@ -354,19 +355,27 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
-        self.menuOpen = QtWidgets.QMenu(self.menubar)
-        self.menuOpen.setObjectName("menuOpen")
+        self.fileMenu = QtWidgets.QMenu(self.menubar)
+        self.fileMenu.setObjectName("fileMenu")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+
+        # action open file
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setObjectName("actionOpen")
+        self.actionOpen.triggered.connect(self.file_open)
+
+        # action save file
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
-        self.menuOpen.addAction(self.actionOpen)
-        self.menuOpen.addAction(self.actionSave)
-        self.menubar.addAction(self.menuOpen.menuAction())
+        self.actionSave.triggered.connect(self.file_save)
+
+        # add to fileMenu
+        self.fileMenu.addAction(self.actionOpen)
+        self.fileMenu.addAction(self.actionSave)
+        self.menubar.addAction(self.fileMenu.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -408,7 +417,7 @@ class Ui_MainWindow(object):
         self.pointsSpinBox.setStatusTip(_translate("MainWindow", "Add course points input"))
         self.gradeSpinBox.setStatusTip(_translate("MainWindow", "Add course grade input"))
         self.targetGPADoubleSpinBox.setStatusTip(_translate("MainWindow", "Target GPA input"))
-        self.menuOpen.setTitle(_translate("MainWindow", "File"))
+        self.fileMenu.setTitle(_translate("MainWindow", "File"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionOpen.setStatusTip(_translate("MainWindow", "Open a file"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
@@ -561,3 +570,39 @@ class Ui_MainWindow(object):
             self.avg160Label.setText("Average grade needed for 120 points: " + output[1])
 
         self.messageLabel.setText("Average for target GPA was calculated!")
+
+    # opens a json file
+    def file_open(self):
+        name = QtWidgets.QFileDialog.getOpenFileName(
+            self, "Open File", "", "Json (*.json)", "Json")
+
+        # only .json files allowed
+        while name[0] and not name[0].endswith(".json"):
+            pass
+            name = QtWidgets.QFileDialog.getOpenFileName(
+                self, "Open File", "", "Json (*.json)", "Json")
+            pass
+
+        # if user didn't close the open window
+        if name[0]:
+            with open(name[0]) as f:
+                data = json.load(f)
+                for course in data:
+                    self.nameAddLineEdit.setText(course["name"])
+                    self.pointsSpinBox.setValue(float(course["points"]))
+                    self.gradeSpinBox.setValue(int(course["grade"]))
+                    self.add_course_clicked(self.calculator)
+
+                self.nameAddLineEdit.setText("")
+                self.pointsSpinBox.setValue(1)
+                self.gradeSpinBox.setValue(0)
+                self.messageLabel.setText("File was loaded!")
+
+    # saves a file
+    def file_save(self):
+        name = QtWidgets.QFileDialog.getSaveFileName(
+            self, "Save File", "", "Json (*.json)", "Json")
+
+        if name[0]:
+            with open(name[0], "w") as f:
+                json.dump([course.dump() for course in self.calculator.added_courses], f, indent=2)
