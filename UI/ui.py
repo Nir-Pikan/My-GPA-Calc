@@ -10,17 +10,21 @@
 # Edited by Nir Pikan - knows what he's doing
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox, QStackedWidget
 from Classes.Calculator import Calculator, ErrorMsg, Course
+from Classes.SpinBox import SpinBox
 import json
 
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
+    delete_buttons = []
+
     def setupUi(self, MainWindow, calculator):
         self.calculator = calculator
 
         # create main window
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1000, 880)
+        MainWindow.resize(1050, 880)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -39,7 +43,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create messageLabel
         self.messageLabel = QtWidgets.QLabel(self.centralwidget)
-        self.messageLabel.setGeometry(QtCore.QRect(10, 790, 980, 50))
+        self.messageLabel.setGeometry(QtCore.QRect(10, 790, 1030, 50))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(20)
@@ -64,7 +68,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create totalPointsLabel
         self.totalPointsLabel = QtWidgets.QLabel(self.centralwidget)
-        self.totalPointsLabel.setGeometry(QtCore.QRect(770, 100, 250, 24))
+        self.totalPointsLabel.setGeometry(QtCore.QRect(770, 100, 270, 24))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(18)
@@ -84,9 +88,20 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.gpaLabel.setFont(font)
         self.gpaLabel.setObjectName("gpaLabel")
 
+        # create binaryLabel
+        self.binaryLabel = QtWidgets.QLabel(self.centralwidget)
+        self.binaryLabel.setGeometry(QtCore.QRect(20, 80, 81, 20))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.binaryLabel.setFont(font)
+        self.binaryLabel.setObjectName("binaryLabel")
+
         # create nameLabel
         self.nameLabel = QtWidgets.QLabel(self.centralwidget)
-        self.nameLabel.setGeometry(QtCore.QRect(115, 80, 81, 20))
+        self.nameLabel.setGeometry(QtCore.QRect(225, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -97,7 +112,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create pointsLabel
         self.pointsLabel = QtWidgets.QLabel(self.centralwidget)
-        self.pointsLabel.setGeometry(QtCore.QRect(325, 80, 81, 20))
+        self.pointsLabel.setGeometry(QtCore.QRect(485, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -108,7 +123,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create gradeLabel
         self.gradeLabel = QtWidgets.QLabel(self.centralwidget)
-        self.gradeLabel.setGeometry(QtCore.QRect(535, 80, 81, 20))
+        self.gradeLabel.setGeometry(QtCore.QRect(580, 80, 81, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -372,9 +387,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.actionSave.setObjectName("actionSave")
         self.actionSave.triggered.connect(self.file_save)
 
+        # action reset file
+        self.actionReset = QtWidgets.QAction(MainWindow)
+        self.actionReset.setObjectName("actionReset")
+        self.actionReset.triggered.connect(self.reset_calc_and_gui)
+
         # add to fileMenu
         self.fileMenu.addAction(self.actionOpen)
         self.fileMenu.addAction(self.actionSave)
+        self.fileMenu.addAction(self.actionReset)
         self.menubar.addAction(self.fileMenu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -387,6 +408,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.myCoursesLabel.setText(_translate("MainWindow", "My Courses"))
         self.totalPointsLabel.setText(_translate("MainWindow", "Total Points: 0"))
         self.gpaLabel.setText(_translate("MainWindow", "GPA: 0"))
+        self.binaryLabel.setText(_translate("MainWindow", "Binary"))
         self.nameLabel.setText(_translate("MainWindow", "Name"))
         self.pointsLabel.setText(_translate("MainWindow", "Points"))
         self.gradeLabel.setText(_translate("MainWindow", "Grade"))
@@ -424,6 +446,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionSave.setStatusTip(_translate("MainWindow", "Saves a file"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
+        self.actionReset.setText(_translate("MainWindow", "Reset"))
+        self.actionReset.setStatusTip(_translate("MainWindow", "Resets the calculator"))
+        self.actionReset.setShortcut(_translate("MainWindow", "Ctrl+R"))
 
     # when the addCourseButton is clicked
     def add_course_clicked(self, calculator):
@@ -433,12 +458,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         # in case of an error
         if type(created_course) is ErrorMsg:
             self.messageLabel.setText(created_course.msg)
+            self.show_error_popup("Add course error", created_course.msg)
             return
 
         # update text
         self.messageLabel.setText("Course ''%s'' was added!" % created_course.name)
-        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.total_points)
-        self.gpaLabel.setText("GPA: %.2f" % self.calculator.gpa)
+        self.update_gpa_and_total_points_text()
 
         # add course to UI
         # add check_box
@@ -459,23 +484,42 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # add pointsLineEdit
         points_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        points_line_edit.setFixedWidth(100)
         points_line_edit.setText(str(created_course.points))
         points_line_edit.setReadOnly(True)
         points_line_edit.setAlignment(QtCore.Qt.AlignCenter)
         self.gridLayout_2.addWidget(points_line_edit, self.calculator.courses_count, 2, 1, 1)
 
-        # Add gradeLineEdit
-        grade_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        grade_line_edit.setText(str(created_course.grade))
-        grade_line_edit.setReadOnly(True)
-        grade_line_edit.setAlignment(QtCore.Qt.AlignCenter)
-        self.gridLayout_2.addWidget(grade_line_edit, self.calculator.courses_count, 3, 1, 1)
+        # add grade_spin_box
+        grade_spin_box = SpinBox(self.addCourseHorizontalLayoutWidget)
+        grade_spin_box.setFixedWidth(100)
+        grade_spin_box.setMaximum(100)
+        grade_spin_box.setValue(created_course.grade)
+        grade_spin_box.setAlignment(QtCore.Qt.AlignCenter)
+        grade_spin_box.valueChanged.connect(
+            lambda: self.course_grade_changed(
+                created_course, grade_spin_box.value(),
+                name_line_edit, points_line_edit, grade_spin_box))
+        self.gridLayout_2.addWidget(grade_spin_box, self.calculator.courses_count, 3, 1, 1)
+
+        # if grade is lower then 55 mark course as RED
+        if self.gradeSpinBox.value() < 55:
+            name_line_edit.setStyleSheet("color: red;")
+            points_line_edit.setStyleSheet("color: red;")
+            grade_spin_box.setStyleSheet("color: red;")
+
+        # if grade is 100 mark course as GREEN
+        elif self.gradeSpinBox.value() == 100:
+            name_line_edit.setStyleSheet("color: green;")
+            points_line_edit.setStyleSheet("color: green;")
+            grade_spin_box.setStyleSheet("color: green;")
 
         # add deleteButton
         delete_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         delete_button.setText("Delete")
         delete_button.clicked.connect(lambda: self.remove_row(delete_button, created_course))
         self.gridLayout_2.addWidget(delete_button, self.calculator.courses_count, 4, 1, 1)
+        self.delete_buttons.append(delete_button)
 
     # makes sure that the pointsSpinBox will have logical values
     def set_course_points(self, value):
@@ -494,6 +538,26 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.calculator.enable_disable_update(course)
         self.update_gpa_and_total_points_text()
 
+    # when a courses grade was changed
+    def course_grade_changed(self, course, new_value, name_line, points_line, grade_line):
+        self.calculator.update_course_grade(course, new_value)
+        self.update_gpa_and_total_points_text()
+
+        if new_value < 55:
+            name_line.setStyleSheet("color: red;")
+            points_line.setStyleSheet("color: red;")
+            grade_line.setStyleSheet("color: red;")
+
+        elif new_value == 100:
+            name_line.setStyleSheet("color: green;")
+            points_line.setStyleSheet("color: green;")
+            grade_line.setStyleSheet("color: green;")
+
+        else:
+            name_line.setStyleSheet("color: black;")
+            points_line.setStyleSheet("color: black;")
+            grade_line.setStyleSheet("color: black;")
+
     # when the deleteCourseButton is clicked
     def remove_row(self, sender, course):
         self.calculator.remove_course(course)
@@ -506,14 +570,29 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 layout.widget().deleteLater()
                 self.gridLayout_2.removeItem(layout)
 
+        self.delete_buttons.remove(sender)
+
         # update text
         self.messageLabel.setText("Course ''%s'' was deleted!" % course.name)
         self.update_gpa_and_total_points_text()
 
     # updates the GPA and Total Points text
     def update_gpa_and_total_points_text(self):
-        self.totalPointsLabel.setText("Total Points: %.1f" % self.calculator.total_points)
+        temp_string = "Total Points: %.1f" % self.calculator.total_points
+        real_points_string = " (%.1f)" % self.calculator.real_total_points
+        self.totalPointsLabel.setText(temp_string + real_points_string)
         self.gpaLabel.setText("GPA: %.2f" % self.calculator.gpa)
+
+        # if GPA is lower then 66 mark it with RED
+        if self.calculator.gpa < 66:
+            self.gpaLabel.setStyleSheet("color: red;")
+
+        # if GPA is higher then 90 mark it with GREEN
+        elif self.calculator.gpa >= 90:
+            self.gpaLabel.setStyleSheet("color: green;")
+
+        else:
+            self.gpaLabel.setStyleSheet("color: black;")
 
     # when the maxGPAButton is clicked
     def max_gpa_clicked(self):
@@ -578,13 +657,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # only .json files allowed
         while name[0] and not name[0].endswith(".json"):
-            pass
+            self.show_error_popup("File type error", "Opened file must be .JSON!")
             name = QtWidgets.QFileDialog.getOpenFileName(
                 self, "Open File", "", "Json (*.json)", "Json")
             pass
 
         # if user didn't close the open window
         if name[0]:
+            self.reset_calc_and_gui()
             with open(name[0]) as f:
                 data = json.load(f)
                 for course in data:
@@ -606,3 +686,32 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if name[0]:
             with open(name[0], "w") as f:
                 json.dump([course.dump() for course in self.calculator.added_courses], f, indent=2)
+                self.messageLabel.setText("File was saved!")
+
+    # error msg for open file
+    def show_error_popup(self, title, msg):
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle(title)
+        msg_box.setText(msg)
+
+        x = msg_box.exec_()
+
+    # resets the calculator and GUI
+    def reset_calc_and_gui(self):
+        if self.delete_buttons:
+            for i in range(len(self.delete_buttons)):
+                self.delete_buttons[0].click()
+
+        self.calculator.reset_calculator()
+
+        # reset GUI text
+        self.top3Label.setText("1.")
+        self.top3Label_2.setText("2.")
+        self.top3Label_3.setText("3.")
+        self.maxGPA120Label.setText("Max GPA for 120 points: ")
+        self.maxGPA160Label.setText("Max GPA for 160 points: ")
+        self.targetGPADoubleSpinBox.setValue(0)
+        self.avg120Label.setText("Average grade needed for 120 points:")
+        self.avg160Label.setText("Average grade needed for 160 points:")
+
+        self.messageLabel.setText("Calculator reset!")
