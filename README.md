@@ -12,3 +12,5 @@ reach your target GPA.
 After your done using the calculator SAVE your courses as
 a JSON file and LOAD them back in the next time you want to
 use them!
+
+To install the program simply download the "My-GPA-Calculator_v3_Installer" file and run it!
