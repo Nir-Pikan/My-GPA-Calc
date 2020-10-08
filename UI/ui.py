@@ -101,7 +101,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create nameLabel
         self.nameLabel = QtWidgets.QLabel(self.centralwidget)
-        self.nameLabel.setGeometry(QtCore.QRect(225, 80, 81, 20))
+        self.nameLabel.setGeometry(QtCore.QRect(225, 80, 120, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -160,6 +160,39 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.coursesScrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.coursesScrollArea, 0, 1, 1, 1)
+
+        # create addCourseNameLabel
+        self.addCourseNameLabel = QtWidgets.QLabel(self.centralwidget)
+        self.addCourseNameLabel.setGeometry(QtCore.QRect(260, 368, 100, 20))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.addCourseNameLabel.setFont(font)
+        self.addCourseNameLabel.setObjectName("addCourseNameLabel")
+
+        # create addCoursePointsLabel
+        self.addCoursePointsLabel = QtWidgets.QLabel(self.centralwidget)
+        self.addCoursePointsLabel.setGeometry(QtCore.QRect(586, 368, 100, 20))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.addCoursePointsLabel.setFont(font)
+        self.addCoursePointsLabel.setObjectName("addCoursePointsLabel")
+
+        # create addCourseGradeLabel
+        self.addCourseGradeLabel = QtWidgets.QLabel(self.centralwidget)
+        self.addCourseGradeLabel.setGeometry(QtCore.QRect(640, 368, 100, 20))
+        font = QtGui.QFont()
+        font.setFamily("David")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.addCourseGradeLabel.setFont(font)
+        self.addCourseGradeLabel.setObjectName("addCourseGradeLabel")
 
         # create Add-course base
         self.addCourseHorizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -409,10 +442,13 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.totalPointsLabel.setText(_translate("MainWindow", "Total Points: 0"))
         self.gpaLabel.setText(_translate("MainWindow", "GPA: 0"))
         self.binaryLabel.setText(_translate("MainWindow", "Binary"))
-        self.nameLabel.setText(_translate("MainWindow", "Name"))
+        self.nameLabel.setText(_translate("MainWindow", "Course Name"))
         self.pointsLabel.setText(_translate("MainWindow", "Points"))
         self.gradeLabel.setText(_translate("MainWindow", "Grade"))
-        self.addCourseButton.setText(_translate("MainWindow", "Add"))
+        self.addCourseNameLabel.setText(_translate("MainWindow", "Course Name"))
+        self.addCoursePointsLabel.setText(_translate("MainWindow", "Points"))
+        self.addCourseGradeLabel.setText(_translate("MainWindow", "Grade"))
+        self.addCourseButton.setText(_translate("MainWindow", "Add Course"))
         self.addCourseButton.setStatusTip(_translate(
             "MainWindow", "Adds a course to the calculator"))
         self.featuresLabel.setText(_translate("MainWindow", "Features"))
