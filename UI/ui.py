@@ -101,7 +101,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # create nameLabel
         self.nameLabel = QtWidgets.QLabel(self.centralwidget)
-        self.nameLabel.setGeometry(QtCore.QRect(225, 80, 120, 20))
+        self.nameLabel.setGeometry(QtCore.QRect(200, 80, 120, 20))
         font = QtGui.QFont()
         font.setFamily("David")
         font.setPointSize(14)
@@ -436,7 +436,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "My-GPA-Calculator (By Nir Pikan)"))
         self.myGPAcalcLabel.setText(_translate("MainWindow", "My-GPA-Calculator"))
         self.myCoursesLabel.setText(_translate("MainWindow", "My Courses"))
         self.totalPointsLabel.setText(_translate("MainWindow", "Total Points: 0"))
