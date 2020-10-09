@@ -36,7 +36,8 @@ class Calculator:
             self.courses.append([])
 
     # adds a course to the calculator
-    def add_course(self, name, points, grade):
+    def add_course(self, original_name, points, grade):
+        name = original_name.strip()  # to deal with spaces
         if len(name) < 1:
             return ErrorMsg("Course name must have at least 1 character!")
         if len(name) > 30:
